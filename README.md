@@ -140,7 +140,7 @@ npm run proto:generate
 
 ### バックエンド開発
 
-- インメモリストレージを使用（実運用時はデータベースに置き換え推奨）
+- SQLiteデータベースでデータ永続化
 - gRPCサービスは `packages/backend/src/services/` 配下に実装
 - 各サービスはトークンベース認証を使用
 
@@ -150,6 +150,60 @@ npm run proto:generate
 - CommunityToolkit.Mvvm を使用
 - gRPC通信は `GrpcClientService` を通じて実行
 - リアルタイムメッセージングにgRPCストリーミングを使用
+
+## テスト
+
+### バックエンドテスト
+
+バックエンドはJestを使用したユニットテストを含んでいます。
+
+```bash
+# すべてのテストを実行
+cd packages/backend
+npm test
+
+# ウォッチモードで実行
+npm run test:watch
+
+# カバレッジレポート付きで実行
+npm run test:coverage
+```
+
+**テスト内容:**
+- 認証サービス (login, logout, register, validateToken)
+- ユーザーサービス (CRUD操作)
+- チャンネルサービス (作成、更新、削除、メンバー管理)
+- メッセージサービス (送信、取得、削除)
+
+**モック:**
+- ストレージレイヤーをモック化
+- bcryptjsによるパスワードハッシュ化のテスト
+
+### フロントエンドテスト
+
+フロントエンドはxUnitとMoqを使用したユニットテストを含んでいます。
+
+```bash
+# すべてのテストを実行
+cd packages/frontend.tests
+dotnet test
+
+# カバレッジレポート付きで実行
+dotnet test --collect:"XPlat Code Coverage"
+
+# 詳細な出力で実行
+dotnet test --logger "console;verbosity=detailed"
+```
+
+**テスト内容:**
+- GrpcClientServiceの統合テスト
+- LoginViewModelのプロパティテスト
+- ChatViewModelのプロパティテスト
+
+**注意:**
+- 統合テストを実行する場合は、事前にバックエンドサーバーを起動してください
+- ViewModelの完全なユニットテストには依存性注入の実装が推奨されます
+- 詳細は `packages/frontend.tests/README.md` を参照してください
 
 ## セキュリティに関する注意
 
