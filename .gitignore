@@ -33,3 +33,9 @@ Thumbs.db
 # Environment
 .env
 .env.local
+
+# Database
+packages/backend/data/
+*.db
+*.db-shm
+*.db-wal

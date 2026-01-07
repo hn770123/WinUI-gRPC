@@ -6,6 +6,7 @@ import { channelService } from './services/channel';
 import { messageService } from './services/message';
 import { userService } from './services/user';
 import { storage } from './storage';
+import { initializeDatabase } from './database';
 import * as bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -72,6 +73,9 @@ server.addService(userProto.chat.UserService.service, userService);
 
 const PORT = process.env.PORT || '50051';
 
+// データベースの初期化
+initializeDatabase();
+
 // サーバーの起動
 server.bindAsync(
   `0.0.0.0:${PORT}`,
@@ -89,42 +93,58 @@ server.bindAsync(
 );
 
 function initializeDemoData() {
-  // デモユーザーの作成
-  const demoUser1 = {
-    id: uuidv4(),
-    username: 'user1',
-    passwordHash: bcrypt.hashSync('password1', 10),
-    displayName: 'ユーザー1',
-    createdAt: Date.now(),
-    isActive: true
-  };
+  // 既存のユーザーを確認
+  const existingUser1 = storage.getUserByUsername('user1');
+  const existingUser2 = storage.getUserByUsername('user2');
 
-  const demoUser2 = {
-    id: uuidv4(),
-    username: 'user2',
-    passwordHash: bcrypt.hashSync('password2', 10),
-    displayName: 'ユーザー2',
-    createdAt: Date.now(),
-    isActive: true
-  };
+  let demoUser1 = existingUser1;
+  let demoUser2 = existingUser2;
 
-  storage.addUser(demoUser1);
-  storage.addUser(demoUser2);
+  // ユーザーが存在しない場合のみ作成
+  if (!existingUser1) {
+    demoUser1 = {
+      id: uuidv4(),
+      username: 'user1',
+      passwordHash: bcrypt.hashSync('password1', 10),
+      displayName: 'ユーザー1',
+      createdAt: Date.now(),
+      isActive: true
+    };
+    storage.addUser(demoUser1);
+    console.log('デモユーザー1を作成しました: username=user1, password=password1');
+  }
 
-  // デモチャンネルの作成
-  const demoChannel = {
-    id: uuidv4(),
-    name: '一般',
-    description: 'デモチャンネル',
-    createdAt: Date.now(),
-    createdBy: demoUser1.id,
-    memberIds: [demoUser1.id, demoUser2.id],
-    isPrivate: false
-  };
+  if (!existingUser2) {
+    demoUser2 = {
+      id: uuidv4(),
+      username: 'user2',
+      passwordHash: bcrypt.hashSync('password2', 10),
+      displayName: 'ユーザー2',
+      createdAt: Date.now(),
+      isActive: true
+    };
+    storage.addUser(demoUser2);
+    console.log('デモユーザー2を作成しました: username=user2, password=password2');
+  }
 
-  storage.addChannel(demoChannel);
+  // チャンネルが既に存在するか確認
+  const existingChannels = storage.getAllChannels();
+  const hasGeneralChannel = existingChannels.some(ch => ch.name === '一般');
 
-  console.log('デモデータを初期化しました');
-  console.log('デモユーザー1: username=user1, password=password1');
-  console.log('デモユーザー2: username=user2, password=password2');
+  if (!hasGeneralChannel && demoUser1 && demoUser2) {
+    // デモチャンネルの作成
+    const demoChannel = {
+      id: uuidv4(),
+      name: '一般',
+      description: 'デモチャンネル',
+      createdAt: Date.now(),
+      createdBy: demoUser1.id,
+      memberIds: [demoUser1.id, demoUser2.id],
+      isPrivate: false
+    };
+    storage.addChannel(demoChannel);
+    console.log('デモチャンネルを作成しました');
+  }
+
+  console.log('デモデータの初期化が完了しました');
 }
