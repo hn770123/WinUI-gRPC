@@ -20,26 +20,26 @@
 ```mermaid
 graph TB
     subgraph "フロントエンド層 (WinUI 3 / C#)"
-        UI[Views/Pages<br/>XAML UI]
-        VM[ViewModels<br/>MVVM Pattern]
-        GCS[GrpcClientService<br/>gRPCクライアント]
+        UI[Views/Pages<br>XAML UI]
+        VM[ViewModels<br>MVVM Pattern]
+        GCS[GrpcClientService<br>gRPCクライアント]
     end
 
     subgraph "通信層"
-        GRPC[gRPC<br/>Protocol Buffers]
+        GRPC[gRPC<br>Protocol Buffers]
     end
 
     subgraph "バックエンド層 (Node.js / TypeScript)"
-        AS[AuthService<br/>認証サービス]
-        MS[MessageService<br/>メッセージサービス]
-        CS[ChannelService<br/>チャンネルサービス]
-        US[UserService<br/>ユーザーサービス]
-        STORAGE[Storage Layer<br/>SQLite Database]
+        AS[AuthService<br>認証サービス]
+        MS[MessageService<br>メッセージサービス]
+        CS[ChannelService<br>チャンネルサービス]
+        US[UserService<br>ユーザーサービス]
+        STORAGE[Storage Layer<br>SQLite Database]
     end
 
     subgraph "テスト層"
-        FT[Frontend Tests<br/>xUnit + Moq]
-        BT[Backend Tests<br/>Jest]
+        FT[Frontend Tests<br>xUnit + Moq]
+        BT[Backend Tests<br>Jest]
     end
 
     UI --> VM
@@ -79,10 +79,10 @@ graph TB
 ```mermaid
 sequenceDiagram
     participant User as ユーザー
-    participant LP as LoginPage<br/>(View)
+    participant LP as LoginPage<br>(View)
     participant LVM as LoginViewModel
     participant GCS as GrpcClientService
-    participant AS as AuthService<br/>(Backend)
+    participant AS as AuthService<br>(Backend)
     participant DB as SQLite Database
 
     Note over User,DB: ログインフロー
@@ -141,10 +141,10 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant User as ユーザー
-    participant CP as ChatPage<br/>(View)
+    participant CP as ChatPage<br>(View)
     participant CVM as ChatViewModel
     participant GCS as GrpcClientService
-    participant MS as MessageService<br/>(Backend)
+    participant MS as MessageService<br>(Backend)
     participant DB as SQLite Database
 
     Note over User,DB: メッセージ送信フロー
@@ -216,10 +216,10 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant User as ユーザー
-    participant CEP as ChannelEditPage<br/>(View)
+    participant CEP as ChannelEditPage<br>(View)
     participant CEVM as ChannelEditViewModel
     participant GCS as GrpcClientService
-    participant CS as ChannelService<br/>(Backend)
+    participant CS as ChannelService<br>(Backend)
     participant DB as SQLite Database
 
     Note over User,DB: チャンネル作成フロー
@@ -289,10 +289,10 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant User as ユーザー
-    participant UMP as UserManagementPage<br/>(View)
+    participant UMP as UserManagementPage<br>(View)
     participant UMVM as UserManagementViewModel
     participant GCS as GrpcClientService
-    participant US as UserService<br/>(Backend)
+    participant US as UserService<br>(Backend)
     participant DB as SQLite Database
 
     Note over User,DB: ユーザー一覧取得フロー
