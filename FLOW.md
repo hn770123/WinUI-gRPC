@@ -172,7 +172,7 @@ sequenceDiagram
     MS->>DB: getMessagesByChannelId(limit)
     DB-->>MS: メッセージリスト
     MS-->>GCS: メッセージ配列
-    GCS-->>CVM: List&lt;Message&gt;
+    GCS-->>CVM: Message配列
     CVM->>CVM: Messages.Clear() + Add
     CVM-->>CP: UIに表示
 
@@ -305,7 +305,7 @@ sequenceDiagram
     US->>DB: getAllUsers()
     DB-->>US: ユーザーリスト
     US-->>GCS: ユーザー配列
-    GCS-->>UMVM: List&lt;User&gt;
+    GCS-->>UMVM: User配列
     UMVM-->>UMP: ユーザー一覧表示
 
     Note over User,DB: ユーザー情報更新フロー
