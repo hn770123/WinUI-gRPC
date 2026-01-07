@@ -7,7 +7,10 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "proto:generate": "cd ../proto && npm run proto:generate:node"
+    "proto:generate": "cd ../proto && npm run proto:generate:node",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.9.14",
@@ -19,8 +22,11 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/better-sqlite3": "^7.6.8",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.10.0",
     "@types/uuid": "^9.0.7",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
   }

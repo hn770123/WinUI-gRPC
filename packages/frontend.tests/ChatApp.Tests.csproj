@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.6.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Grpc.Net.Client" Version="2.59.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.25.1" />
+    <PackageReference Include="Grpc.Tools" Version="2.59.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\proto\protos\auth.proto" GrpcServices="Client" />
+    <Protobuf Include="..\proto\protos\channel.proto" GrpcServices="Client" />
+    <Protobuf Include="..\proto\protos\message.proto" GrpcServices="Client" />
+    <Protobuf Include="..\proto\protos\user.proto" GrpcServices="Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\frontend\Services\GrpcClientService.cs" Link="Services\GrpcClientService.cs" />
+    <Compile Include="..\frontend\ViewModels\LoginViewModel.cs" Link="ViewModels\LoginViewModel.cs" />
+    <Compile Include="..\frontend\ViewModels\ChatViewModel.cs" Link="ViewModels\ChatViewModel.cs" />
+    <Compile Include="..\frontend\Models\*.cs" Link="Models\" />
+  </ItemGroup>
+
+</Project>
