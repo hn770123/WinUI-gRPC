@@ -1,0 +1,17 @@
+{
+  "name": "@chat/proto",
+  "version": "1.0.0",
+  "description": "gRPC protocol definitions for chat application",
+  "main": "index.js",
+  "scripts": {
+    "proto:generate": "npm run proto:generate:node && npm run proto:generate:csharp",
+    "proto:generate:node": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./generated/node --grpc_out=grpc_js:./generated/node --ts_out=grpc_js:./generated/node --proto_path=./protos ./protos/*.proto",
+    "proto:generate:csharp": "mkdir -p ./generated/csharp && grpc_tools_node_protoc --csharp_out=./generated/csharp --grpc_out=./generated/csharp --plugin=protoc-gen-grpc=$(which grpc_csharp_plugin) --proto_path=./protos ./protos/*.proto"
+  },
+  "devDependencies": {
+    "@grpc/grpc-js": "^1.9.14",
+    "@grpc/proto-loader": "^0.7.10",
+    "grpc-tools": "^1.12.4",
+    "grpc_tools_node_protoc_ts": "^5.3.3"
+  }
+}

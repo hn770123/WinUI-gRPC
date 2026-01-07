@@ -1,0 +1,19 @@
+{
+  "name": "winui-grpc-chat",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Multi-user chat application with WinUI 3 and gRPC",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "proto:generate": "npm run proto:generate --workspace=packages/proto",
+    "backend:dev": "npm run dev --workspace=packages/backend",
+    "backend:build": "npm run build --workspace=packages/backend",
+    "backend:start": "npm run start --workspace=packages/backend"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  }
+}
