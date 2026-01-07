@@ -13,10 +13,12 @@
     "@grpc/grpc-js": "^1.9.14",
     "@grpc/proto-loader": "^0.7.10",
     "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^9.2.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/better-sqlite3": "^7.6.8",
     "@types/node": "^20.10.0",
     "@types/uuid": "^9.0.7",
     "ts-node-dev": "^2.0.0",
