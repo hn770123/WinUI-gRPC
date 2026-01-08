@@ -38,7 +38,7 @@ jobs:
         run: msbuild packages/frontend/ChatApp.csproj /t:Build /p:Configuration=Release /p:Platform=${{ matrix.platform }}
 
       - name: フロントエンドを公開 (${{ matrix.platform }})
-        run: msbuild packages/frontend/ChatApp.csproj /t:Publish /p:Configuration=Release /p:Platform=${{ matrix.platform }} /p:PublishDir=..\..\publish\${{ matrix.platform }}\
+        run: msbuild packages/frontend/ChatApp.csproj /t:Publish /p:Configuration=Release /p:Platform=${{ matrix.platform }} /p:PublishDir=../../publish/${{ matrix.platform }}/
 
       - name: ビルド成果物をアップロード (${{ matrix.platform }})
         uses: actions/upload-artifact@v4
