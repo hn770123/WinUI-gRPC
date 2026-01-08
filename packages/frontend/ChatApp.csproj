@@ -25,10 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\proto\protos\auth.proto" GrpcServices="Client" />
-    <Protobuf Include="..\proto\protos\channel.proto" GrpcServices="Client" />
-    <Protobuf Include="..\proto\protos\message.proto" GrpcServices="Client" />
-    <Protobuf Include="..\proto\protos\user.proto" GrpcServices="Client" />
+    <Protobuf Include="..\proto\protos\auth.proto" GrpcServices="Client" ProtoRoot="..\proto\protos" />
+    <Protobuf Include="..\proto\protos\channel.proto" GrpcServices="Client" ProtoRoot="..\proto\protos" />
+    <Protobuf Include="..\proto\protos\message.proto" GrpcServices="Client" ProtoRoot="..\proto\protos" />
+    <Protobuf Include="..\proto\protos\user.proto" GrpcServices="Client" ProtoRoot="..\proto\protos" />
   </ItemGroup>
 
   <ItemGroup>
