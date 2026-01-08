@@ -8,6 +8,11 @@ using Grpc.Net.Client;
 using Chat.Proto;
 using ChatApp.Models;
 
+// Chat.Proto の型にエイリアスを使用して名前空間の曖昧性を解消
+using ProtoUser = Chat.Proto.User;
+using ProtoChannel = Chat.Proto.Channel;
+using ProtoMessage = Chat.Proto.Message;
+
 namespace ChatApp.Services;
 
 public class GrpcClientService : IDisposable
