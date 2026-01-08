@@ -26,8 +26,11 @@ jobs:
       - name: MSBuildをセットアップ
         uses: microsoft/setup-msbuild@v1.3
 
+      - name: メインアプリの依存関係を復元
+        run: dotnet restore packages/frontend/ChatApp.csproj
+
       - name: メインアプリをビルド (x64)
-        run: msbuild packages/frontend/ChatApp.csproj /t:Restore;Build /p:Configuration=Release /p:Platform=x64
+        run: dotnet build packages/frontend/ChatApp.csproj --configuration Release --no-restore /p:Platform=x64
 
       - name: テストプロジェクトの依存関係を復元
         run: dotnet restore packages/frontend.tests/ChatApp.Tests.csproj
