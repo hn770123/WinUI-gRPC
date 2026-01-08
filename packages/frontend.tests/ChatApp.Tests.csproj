@@ -40,7 +40,9 @@
     <Compile Include="..\frontend\Services\GrpcClientService.cs" Link="Services\GrpcClientService.cs" />
     <Compile Include="..\frontend\ViewModels\LoginViewModel.cs" Link="ViewModels\LoginViewModel.cs" />
     <Compile Include="..\frontend\ViewModels\ChatViewModel.cs" Link="ViewModels\ChatViewModel.cs" />
-    <Compile Include="..\frontend\Models\*.cs" Link="Models\" />
+    <Compile Include="..\frontend\Models\Channel.cs" Link="Models\Channel.cs" />
+    <Compile Include="..\frontend\Models\Message.cs" Link="Models\Message.cs" />
+    <Compile Include="..\frontend\Models\User.cs" Link="Models\User.cs" />
   </ItemGroup>
 
 </Project>
