@@ -1,0 +1,50 @@
+name: テスト実行
+
+on:
+  push:
+    branches:
+      - main
+      - 'claude/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: WinUI 3テスト実行
+    runs-on: windows-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: .NET 8.0をセットアップ
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: 依存関係を復元
+        run: dotnet restore packages/frontend.tests/ChatApp.Tests.csproj
+
+      - name: テストプロジェクトをビルド
+        run: dotnet build packages/frontend.tests/ChatApp.Tests.csproj --configuration Release --no-restore
+
+      - name: テストを実行
+        run: dotnet test packages/frontend.tests/ChatApp.Tests.csproj --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
+
+      - name: テスト結果を公開
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: テスト結果
+          path: '**/test-results.trx'
+          reporter: dotnet-trx
+
+      - name: コードカバレッジを公開
+        uses: codecov/codecov-action@v3
+        if: always()
+        with:
+          files: '**/coverage.cobertura.xml'
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
