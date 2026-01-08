@@ -32,13 +32,13 @@ jobs:
         uses: microsoft/setup-msbuild@v1.3
 
       - name: 依存関係を復元
-        run: dotnet restore packages/frontend/ChatApp.csproj
+        run: msbuild packages/frontend/ChatApp.csproj /t:Restore /p:Configuration=Release /p:Platform=${{ matrix.platform }}
 
       - name: フロントエンドをビルド (${{ matrix.platform }})
-        run: dotnet build packages/frontend/ChatApp.csproj --configuration Release --no-restore -p:Platform=${{ matrix.platform }}
+        run: msbuild packages/frontend/ChatApp.csproj /t:Build /p:Configuration=Release /p:Platform=${{ matrix.platform }}
 
       - name: フロントエンドを公開 (${{ matrix.platform }})
-        run: dotnet publish packages/frontend/ChatApp.csproj --configuration Release --no-build -p:Platform=${{ matrix.platform }} --output ./publish/${{ matrix.platform }}
+        run: msbuild packages/frontend/ChatApp.csproj /t:Publish /p:Configuration=Release /p:Platform=${{ matrix.platform }} /p:PublishDir=..\..\publish\${{ matrix.platform }}\
 
       - name: ビルド成果物をアップロード (${{ matrix.platform }})
         uses: actions/upload-artifact@v4
