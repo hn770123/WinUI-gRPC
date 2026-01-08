@@ -1,0 +1,81 @@
+name: ビルドとリリース
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'リリースバージョン (例: 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+jobs:
+  build:
+    name: WinUI 3アプリをビルド
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        platform: [x64, x86, ARM64]
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: .NET 8.0をセットアップ
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: MSBuildをセットアップ
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: 依存関係を復元
+        run: dotnet restore packages/frontend/ChatApp.csproj
+
+      - name: フロントエンドをビルド (${{ matrix.platform }})
+        run: dotnet build packages/frontend/ChatApp.csproj --configuration Release --no-restore -p:Platform=${{ matrix.platform }}
+
+      - name: フロントエンドを公開 (${{ matrix.platform }})
+        run: dotnet publish packages/frontend/ChatApp.csproj --configuration Release --no-build -p:Platform=${{ matrix.platform }} --output ./publish/${{ matrix.platform }}
+
+      - name: ビルド成果物をアップロード (${{ matrix.platform }})
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChatApp-${{ matrix.platform }}
+          path: ./publish/${{ matrix.platform }}
+          retention-days: 7
+
+  create-release:
+    name: GitHubリリースを作成
+    needs: build
+    runs-on: windows-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+
+    steps:
+      - name: 全ての成果物をダウンロード
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      - name: 成果物をZIPに圧縮
+        run: |
+          Compress-Archive -Path ./artifacts/ChatApp-x64/* -DestinationPath ./ChatApp-x64.zip
+          Compress-Archive -Path ./artifacts/ChatApp-x86/* -DestinationPath ./ChatApp-x86.zip
+          Compress-Archive -Path ./artifacts/ChatApp-ARM64/* -DestinationPath ./ChatApp-ARM64.zip
+
+      - name: GitHubリリースを作成
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./ChatApp-x64.zip
+            ./ChatApp-x86.zip
+            ./ChatApp-ARM64.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
